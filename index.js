@@ -1,3 +1,7 @@
+//openServer("HutTrack")
+
+$("#m-motd").html("&bHutTrack&f - &dFind your favourite servers\n&b&nhuttrack.github.io".replaceColorCodes())
+
 function search(){
     var nameorid = $("#serversearch").val()
     fetch('https://api.minehut.com/server/'+nameorid+'?byName=true').then(function (response) {
@@ -12,7 +16,7 @@ function search(){
                         title: 'Error!',
                         text: 'A server with that name or ID was not found!',
                         icon: 'error',
-                        confirmButtonColor: "#5465FF",
+                        confirmButtonColor: "#0a254a",
                       })
                 }
             }).then(function (data) {
@@ -44,7 +48,7 @@ function search(){
             title: 'Error!',
             text: 'A server with that name or ID was not found!',
             icon: 'error',
-            confirmButtonColor: "#5465FF",
+            confirmButtonColor: "#071E3D",
           })
         $("#serversearch").val("")
     }
@@ -63,30 +67,24 @@ function openServer(servername){
             return Promise.reject(response);
         }
     }).then(function (data) {
-        $("#searchdata").html(`            <span id="m-sn" class="text-4xl text-a font-bold font-roboto">BoxPvPV</span>
-        <span class="text-xl text-b font-bold font-roboto">Created <span id="m-cd"></span></span><p>
-        <div class="flex flex-row">
-          <span class="basis-1/6 text-2xl text-a font-roboto">Server ID:</span>
-          <input id="m-id" type="search" class="basis-3/6 form-control flex-auto min-w-0 block px-3 py-1.5 text-base text-a bg-white bg-clip-padding border border-solid border-a rounded-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server ID" aria-label="Search" aria-describedby="button-addon3" readonly>
+        $("#searchdata").html(`          <span id="m-sn" class="text-4xl text-e pr-4 font-bold">HutTrack</span> 
+        <div class="">
+          <span class="text-l text-d ">Created: <span class="text-d font-bold" id="m-cd">Sat Apr 11 2020</span> </span>
+        </div>
+        <div id="m-motd" type="search" class="basis-3/6 form-control flex-auto min-w-0 block px-3 py-1.5 bg-c text-base rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
         </div>
         <div class="flex flex-row">
-          <span class="basis-1/6 text-2xl text-a font-roboto">Server MOTD:</span>
-          <div id="m-motd" type="search" class="basis-3/6 form-control flex-auto min-w-0 block px-3 py-1.5 text-base  bg-slate-700 bg-clip-padding rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
-
-          </div>
-        </div> 
-        <div class="flex flex-row">
-          <span class="basis-1/6 text-2xl text-a font-roboto">Server IP:</span>
-          <input id="m-ip" type="search" class="basis-3/6 form-control flex-auto min-w-0 block px-3 py-1.5 text-base text-a bg-white bg-clip-padding border border-solid border-a rounded-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server IP" aria-label="Search" aria-describedby="button-addon3" readonly>
+          <span class="basis-1/6 text-2xl text-e ">Server IP:</span>
+          <input id="m-ip" type="search" class="basis-3/6 form-control flex-auto min-w-0 block px-3 py-1.5 text-base text-e bg-a bg-clip-padding border-2 border-e rounded-lg transition ease-in-out m-0 focus:outline-none pr-3 mb-2" placeholder="Server IP" aria-label="Search" aria-describedby="button-addon3" readonly>
         </div>
         <div class="">
-          <span class="basis-1/3 text-2xl text-a font-roboto">Online Players:</span>
+          <span class="basis-1/3 text-2xl text-e ">Online Players: <span class="text-d" id="m-po"></span></span>
           <canvas class="basis-2/3" id="currentServerGraph" width="1000" height="100"></canvas>
         </div>
         <div class="flex flex-row">
-          <span class="basis-1/3 text-xl text-a font-roboto">Server Plan: <span id="m-plan"></span></span>
-          <span class="basis-1/3 text-xl text-a font-roboto">Server Status: <span id="m-status"></span></span>
-          <span class="basis-1/3 text-xl text-a font-roboto">Server Icon: <span id="m-icon"></span></span>
+          <span class="basis-1/3 text-xl text-e ">Server Plan: <span id="m-plan" class="text-d"></span></span>
+          <span class="basis-1/3 text-xl text-e ">Server Status: <span id="m-status" class="text-d"></span></span>
+          <span class="basis-1/3 text-xl text-e ">Server Icon: <span id="m-icon" class="text-d"></span></span>
         </div>`)
         console.log(data)
         cs_canvas, cs_series, cs_chart = null
@@ -96,7 +94,7 @@ function openServer(servername){
         $("#m-motd").html(data.server.motd.replaceColorCodes())
         $("#m-po").val(data.server.playerCount)
         $("#m-mp").text(data.server.maxPlayers)
-        $("#m-id").val(data.server._id)
+        $("#m-id").text(data.server._id)
         $("#m-ip").val(data.server.name_lower+".minehut.gg")
         $("#m-plan").text(data.server.activeServerPlan)
         var status = "Offline"
@@ -105,11 +103,11 @@ function openServer(servername){
         }
         $("#m-status").text(status)
         $("#m-icon").text(data.server.icon)
-        cs_chart = new SmoothieChart({grid:{fillStyle:'#ffffff',strokeStyle:'transparent',verticalSections:0,borderVisible:false},labels:{fillStyle:'#5465ff',fontSize:17},tooltip:true}),
+        cs_chart = new SmoothieChart({grid:{fillStyle:'#0a254a',strokeStyle:'transparent',verticalSections:0,borderVisible:false},labels:{fillStyle:'#21E6C1',fontSize:17},tooltip:true}),
         cs_canvas = document.getElementById('currentServerGraph'),
         cs_series = new TimeSeries();
-        cs_chart.addTimeSeries(cs_series, {lineWidth:2,strokeStyle:'#5465ff'});
-        cs_chart.streamTo(cs_canvas, 1600);
+        cs_chart.addTimeSeries(cs_series, {lineWidth:2,strokeStyle:'#21E6C1'});
+        cs_chart.streamTo(cs_canvas, 2500);
         //console.log(cs_chart)
     }).catch(function (err) {
         console.warn('Something went wrong.', err);
@@ -126,6 +124,7 @@ cs_canvas, cs_series, cs_chart;
 var currentserver = "";
 var servers;
 
+
 $(document).ready(function(){
     document.getElementById('serversearch').addEventListener("keypress", function(event) {
         if (event.key === "Enter") {
@@ -133,25 +132,54 @@ $(document).ready(function(){
           document.getElementById("serversearchbutton").click();
         }
       }); 
-    os_chart = new SmoothieChart({grid:{fillStyle:'#5465ff',strokeStyle:'transparent',verticalSections:0,borderVisible:false},labels:{fillStyle:'#ffffff',fontSize:17},tooltip:true}),
+    
+    /**
+    os_chart = new SmoothieChart({grid:{fillStyle:'#071E3D',strokeStyle:'transparent',verticalSections:0,borderVisible:false},labels:{fillStyle:'#21E6C1',fontSize:17},tooltip:true}),
     os_canvas = document.getElementById('onlineserversg'),
     os_series = new TimeSeries();
-    os_chart.addTimeSeries(os_series, {lineWidth:2,strokeStyle:'#ffffff'});
+    os_chart.addTimeSeries(os_series, {lineWidth:2,strokeStyle:'#21E6C1'});
     os_chart.streamTo(os_canvas, 1600);
 
-    op_chart = new SmoothieChart({grid:{fillStyle:'#5465ff',strokeStyle:'transparent',verticalSections:0,borderVisible:false},labels:{fillStyle:'#ffffff',fontSize:17},tooltip:true}),
+    var parent = os_canvas.parentNode,
+    styles = getComputedStyle(parent),
+    w = parseInt(styles.getPropertyValue("width"), 10),
+    h = parseInt(styles.getPropertyValue("height"), 10);
+
+    os_canvas.width = w;
+    os_canvas.height = h;
+    
+    op_chart = new SmoothieChart({grid:{fillStyle:'#071E3D',strokeStyle:'transparent',verticalSections:0,borderVisible:false},labels:{fillStyle:'#21E6C1',fontSize:17},tooltip:true}),
     op_canvas = document.getElementById('onlineplayersg'),
     op_series = new TimeSeries();
-    op_chart.addTimeSeries(op_series, {lineWidth:2,strokeStyle:'#ffffff'});
+    op_chart.addTimeSeries(op_series, {lineWidth:2,strokeStyle:'#21E6C1'});
     op_chart.streamTo(op_canvas, 1600);
     
-    dl_chart = new SmoothieChart({grid:{fillStyle:'#5465ff',strokeStyle:'transparent',verticalSections:0,borderVisible:false},labels:{fillStyle:'#ffffff',fontSize:17},tooltip:true}),
+    var parent = op_canvas.parentNode,
+    styles = getComputedStyle(parent),
+    w = parseInt(styles.getPropertyValue("width"), 10),
+    h = parseInt(styles.getPropertyValue("height"), 10);
+
+    op_canvas.width = w;
+    op_canvas.height = h;
+
+    dl_chart = new SmoothieChart({grid:{fillStyle:'#071E3D',strokeStyle:'transparent',verticalSections:0,borderVisible:false},labels:{fillStyle:'#21E6C1',fontSize:17},tooltip:true}),
     dl_canvas = document.getElementById('apidelayg'),
     dl_series = new TimeSeries();
-    dl_chart.addTimeSeries(dl_series, {lineWidth:2,strokeStyle:'#ffffff'});
+    dl_chart.addTimeSeries(dl_series, {lineWidth:2,strokeStyle:'#21E6C1'});
     dl_chart.streamTo(dl_canvas, 1600);
+
+    var parent = dl_canvas.parentNode,
+    styles = getComputedStyle(parent),
+    w = parseInt(styles.getPropertyValue("width"), 10),
+    h = parseInt(styles.getPropertyValue("height"), 10);
+
+    dl_canvas.width = w;
+    dl_canvas.height = h;
+     */
+    
 })
-setInterval(function() {
+
+function run(){
     var s = performance.now()
     fetch('https://api.minehut.com/servers').then(function (response) {
         if (response.ok) {
@@ -162,12 +190,12 @@ setInterval(function() {
     }).then(function (data) {
         var delay = performance.now()-s
         $("#online-servers").text(data.total_servers)
-        $("#online-servers-2").text(data.total_servers)
+        $("#online-players").text(data.total_players)
         $("#online-players").text(data.total_players)
         $("#api-delay").text(delay)
-        os_series.append(new Date().getTime(), data.total_servers);
-        op_series.append(new Date().getTime(), data.total_players);
-        dl_series.append(new Date().getTime(), delay);
+        //os_series.append(new Date().getTime(), data.total_servers);
+        //op_series.append(new Date().getTime(), data.total_players);
+        //dl_series.append(new Date().getTime(), delay);
         x = data.servers
         servers = data.servers
         var top20 = x.sort(function(a, b) { return a.playerData.playerCount < b.playerData.playerCount ? 1 : -1; })
@@ -187,7 +215,6 @@ setInterval(function() {
                 if(x.name == currentserver){
     
                     $("#m-po").text(x.playerData.playerCount)
-                    $("#m-mp").text(x.maxPlayers)
                     cs_series.append(new Date().getTime(), x.playerData.playerCount);
                 }
             }
@@ -195,6 +222,12 @@ setInterval(function() {
         //console.log(data)
     }).catch(function (err) {
         console.warn('Something went wrong.', err);
-    });    
-}, 1000)
+    });  
+}
+
+run()
+
+setInterval(function() {
+  run()
+}, 2400)
 
