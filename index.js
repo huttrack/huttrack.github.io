@@ -178,7 +178,7 @@ setInterval(function() {
         for(let i = 0; i < top20.length; i++) {
             let x = top20[i];
             t20+=`
-            <span onclick='openServer("${x.name}")'>#${y}: ${x.name}, ${x.playerData.playerCount}</span><p>`
+            <span onclick='openServer("${x.name}")'>#${y}: <span class="hover:text-e">${x.name}</span>, ${x.playerData.playerCount}</span><p>`
             y+=1
         }
         $("#topservers").html(t20)
