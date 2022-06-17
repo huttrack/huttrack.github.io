@@ -110,7 +110,7 @@ function openServer(servername){
         cs_series = new TimeSeries();
         cs_chart.addTimeSeries(cs_series, {lineWidth:2,strokeStyle:'#5465ff'});
         cs_chart.streamTo(cs_canvas, 1600);
-        console.log(cs_chart)
+        //console.log(cs_chart)
     }).catch(function (err) {
         console.warn('Something went wrong.', err);
     });   
@@ -133,7 +133,6 @@ $(document).ready(function(){
           document.getElementById("serversearchbutton").click();
         }
       }); 
-
     os_chart = new SmoothieChart({grid:{fillStyle:'#5465ff',strokeStyle:'transparent',verticalSections:0,borderVisible:false},labels:{fillStyle:'#ffffff',fontSize:17},tooltip:true}),
     os_canvas = document.getElementById('onlineserversg'),
     os_series = new TimeSeries();
@@ -171,7 +170,7 @@ setInterval(function() {
         dl_series.append(new Date().getTime(), delay);
         x = data.servers
         servers = data.servers
-        var top20 = x.sort(function(a, b) { return a.Variable1 < b.Variable1 ? 1 : -1; })
+        var top20 = x.sort(function(a, b) { return a.playerData.playerCount < b.playerData.playerCount ? 1 : -1; })
                 .slice(0, 20);
         var t20 = ""
         y = 1;
