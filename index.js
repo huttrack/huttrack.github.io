@@ -1,6 +1,6 @@
 //openServer("HutTrack")
 
-$("#m-motd").html("&bHutTrack&f - &dFind your favourite servers\n&b&nhuttrack.github.io".replaceColorCodes())
+$("#m-motd").html("&bHutTrack&f &f~ Find your favourite servers\n&b&nhuttrack.github.io".replaceColorCodes())
 $("#m-ip").val("HutTrack.minehut.gg")
 
 function search(){
