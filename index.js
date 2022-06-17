@@ -1,6 +1,7 @@
 //openServer("HutTrack")
 
 $("#m-motd").html("&bHutTrack&f - &dFind your favourite servers\n&b&nhuttrack.github.io".replaceColorCodes())
+$("#m-ip").val("HutTrack.minehut.gg")
 
 function search(){
     var nameorid = $("#serversearch").val()
@@ -74,8 +75,7 @@ function openServer(servername){
         <div id="m-motd" type="search" class="basis-3/6 form-control flex-auto min-w-0 block px-3 py-1.5 bg-c text-base rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
         </div>
         <div class="flex flex-row">
-          <span class="basis-1/6 text-2xl text-e ">Server IP:</span>
-          <input id="m-ip" type="search" class="basis-3/6 form-control flex-auto min-w-0 block px-3 py-1.5 text-base text-e bg-a bg-clip-padding border-2 border-e rounded-lg transition ease-in-out m-0 focus:outline-none pr-3 mb-2" placeholder="Server IP" aria-label="Search" aria-describedby="button-addon3" readonly>
+          <input id="m-ip" type="search" class="basis-3/6 form-control flex-auto min-w-0 block px-3 py-1.5 text-base text-e bg-c rounded-lg transition ease-in-out m-0 focus:outline-none pr-3 mb-2" placeholder="Server IP" aria-label="Search" aria-describedby="button-addon3" readonly>
         </div>
         <div class="">
           <span class="basis-1/3 text-2xl text-e ">Online Players: <span class="text-d" id="m-po"></span></span>
