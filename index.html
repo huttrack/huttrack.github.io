@@ -17,11 +17,11 @@
       theme: {
         extend: {
           colors: {
-            a: '#5465FF',
-            b: '#788BFF',
-            c: '#9BB1FF',
+            a: '#0a254a',
+            b: '#1F4287',
+            c: '#04152b',
             d: '#BFD7FF',
-            e: '#ffffff',
+            e: '#21E6C1',
             a2: '#121212',
             b2: '#788BFF',
             c2: '#9BB1FF',
@@ -32,52 +32,66 @@
       }
     }
   </script>
+
 </head>
-<body class="bg-a  p-0 m-0 block">
-    <div class="bg-b text-e font-roboto p-4">
-        <span class="text-6xl pr-5">HutTrack</span>
-        <span class="text-4xl">Tracking <span id="online-servers">Waiting.....</span> Servers</span>
-      
+<body class="bg-a font-roboto">
+    <div class="bg-a text-e  p-3 pb-0">
+        <span class="text-4xl pr-5 font-bold">HutTrack</span>
+        <span class="text-xl text-d">
+          Counting 
+          <span class="text-e font-bold" id="online-players">0</span>
+          players across 
+          <span class="text-e font-bold" id="online-servers">0</span> 
+          servers.
+        </span>
+        <!-- <span class="float-right"><a href="https://discord.gg/QjCRDU6hKW" target="_blank"><img src="https://discordapp.com/api/guilds/987424484120215664/widget.png?style=banner2" alt=""></a></span> -->
     </div>
-    <div class="m-3 mb-0">
-      <div class="bg-a text-e font-roboto p-4 flex flex-row">
-        <div class="inline pr-10 basis-1/3">
+    <div class="m-2">
+      <!--
+      <div class="bg-a text-e  p-4 flex flex-row space-x-6">
+        <div class="inline basis-1/3 border-2 rounded-lg border-e p-2">
           <span class="text-2xl font-bold">Online Servers: <span id="online-servers-2"></span></span><p>
-          <canvas id="onlineserversg" width="500" height="100"></canvas>
+          <canvas id="onlineserversg" width="100" height="90" class="object-fill"></canvas>
         </div>
-        <div class="inline basis-1/3">
+        <div class="inline basis-1/3 border-2 rounded-lg border-e p-2 grow">
           <span class="text-2xl font-bold">Online Players: <span id="online-players"></span></span><p>
-          <canvas id="onlineplayersg" width="500" height="100"></canvas><p>
+          <canvas id="onlineplayersg" width="100" height="90"></canvas><p>
         </div>
-        <div class="inline basis-1/3">
+        <div class="inline basis-1/3 border-2 rounded-lg border-e p-2">
           <span class="text-2xl font-bold">API Delay: <span id="api-delay"></span>ms</span><p>
-          <canvas id="apidelayg" width="500" height="100"></canvas><p>
+          <canvas id="apidelayg" width="100" height="90"></canvas><p>
         </div>
       </div>
-      <div class="flex flex-row space-x-4">
-        <div class="bg-e basis-1/5 justify-center rounded-lg p-3 pb-0">
-          <center>
-            <span class="font-roboto p-3 text-a text-4xl font-bold">Top 20 servers:</span>
-          </center>
-          <div id="topservers" class="text-2xl text-a font-bold">
-            <span>#1 ServerName: OnlinePlayers</span>
+      -->
+      <div class=" flex flex-row space-x-6">
+        <div class=" basis-1/5 justify-center border-r-2 border-e p-3 bg-a pr-10">
+          <div class="flex flex-row space-x-4 mb-2">
+            <input id="serversearch" type="search" class="form-control flex-auto min-w-0 block px-3 py-1.5 text-base font-bold text-e bg-a bg-clip-padding border-2 border-e rounded-lg transition ease-in-out m-0 focus:outline-none" placeholder="Server name or ID" aria-label="Search" aria-describedby="button-addon3">
+            <button id="serversearchbutton" class=" btn px-6 py-2 border-2 border-e text-e font-medium text-xs leading-tight uppercase rounded-lg hover:bg-e hover:text-a focus:outline-none focus:ring-0 transition duration-150 ease-in-out" onclick="search()" type="button" id="button-addon3">Find</button>
+          </div>
+          <div id="topservers" class="text-2xl text-e font-bold">
+            <span class="text-e font-bold">Loading Servers...</span>
           </div>
         </div>  
-        <div class="bg-e basis-4/5 rounded-lg p-3 flex flex-row space-x-2">
-          <div class="basis-1/3 rounded-lg border-a border-2 p-3">
-            <span class="font-roboto text-a text-4xl font-bold">Find a server:</span>
-            <p>
-            <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
-            <div class="input-group relative flex flex-wrap items-stretch w-full mb-4 mt-4">
-              <input id="serversearch" type="search" class="form-control relative flex-auto min-w-0 block px-3 py-1.5 text-base text-a bg-white bg-clip-padding border border-solid border-a rounded-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server name or ID" aria-label="Search" aria-describedby="button-addon3">
-              <span class="pr-2"></span>
-              <button id="serversearchbutton" class="btn px-6 py-2 border-2 border-a text-a font-medium text-xs leading-tight uppercase rounded-lg hover:bg-a hover:text-e focus:outline-none focus:ring-0 transition duration-150 ease-in-out mb-2 " onclick="search()" type="button" id="button-addon3">Search</button>
-              <p><!-- <button class="btn px-6 py-2 border-2 border-a text-a font-medium text-xs leading-tight uppercase rounded-lg hover:bg-a hover:text-e focus:outline-none focus:ring-0 transition duration-150 ease-in-out" type="button" id="button-addon3">Random Server</button> -->
-              <!-- <button id="randomserverbutton" class="btn px-6 py-2 border-2 border-a text-a font-medium text-xs leading-tight uppercase rounded-lg hover:bg-a hover:text-e focus:outline-none focus:ring-0 transition duration-150 ease-in-out mb-2 " onclick="randomserver()" type="button" id="button-addon3">Random Online Server</button>  -->
-            </div>
+        <div class="bg-a basis-4/5 rounded-lg p-3 flex flex-row space-x-2">
+        <div id="searchdata" class="basis-2/3 rounded-lg border-a border-2">
+          <span id="m-sn" class="text-4xl text-e pr-4 font-bold">HutTrack</span> 
+          <div class="">
+            <span class="text-l text-d ">Created: <span class="text-d font-bold" id="m-cd">Sat Apr 11 2020</span> </span>
           </div>
-          <div id="searchdata" class="basis-2/3 rounded-lg border-a border-2 p-3">
-            <span class="text-2xl text-a font-bold font-roboto">Select or search for a server!</span>
+          <div id="m-motd" type="search" class="basis-3/6 form-control flex-auto min-w-0 block px-3 py-1.5 bg-c text-base rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
+          </div>
+          <div class="flex flex-row">
+            <input id="m-ip" type="search" class="basis-3/6 form-control flex-auto min-w-0 block px-3 py-1.5 text-base text-e bg-c rounded-lg transition ease-in-out m-0 focus:outline-none pr-3 mb-2" placeholder="Server IP" aria-label="Search" aria-describedby="button-addon3" readonly>
+          </div>
+          <div class="">
+            <span class="basis-1/3 text-2xl text-e ">Online Players: <span class="text-d" id="m-po"></span></span>
+            <canvas class="basis-2/3" id="currentServerGraph" width="1000" height="100"></canvas>
+          </div>
+          <div class="flex flex-row">
+            <span class="basis-1/3 text-xl text-e ">Server Plan: <span id="m-plan" class="text-d"></span></span>
+            <span class="basis-1/3 text-xl text-e ">Server Status: <span id="m-status" class="text-d"></span></span>
+            <span class="basis-1/3 text-xl text-e ">Server Icon: <span id="m-icon" class="text-d"></span></span>
           </div>
         </div>
       </div>
