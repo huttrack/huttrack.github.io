@@ -13,6 +13,7 @@
   <script src="mc.js"></script>
   <script src="alert.js"></script>
   <script src="toast.js"></script>
+  <!-- <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script> -->
   <link rel="stylesheet" href="toast.css">
   <script>
     tailwind.config = {
@@ -23,7 +24,7 @@
             b: '#1F4287',
             c: '#04152b',
             d: '#BFD7FF',
-            e: '#21E6C1',
+            e: '#3ffefe',
             a2: '#121212',
             b2: '#788BFF',
             c2: '#9BB1FF',
@@ -31,7 +32,8 @@
             e2: '#ffffff',
             bad: '#fe3f3f',
             expensive: '#d9a334',
-            good: '#3ffe3f'
+            good: '#3ffe3f',
+            enchant: '#fe3ffe'
           }
         }
       }
@@ -41,15 +43,20 @@
 </head>
 <body class="bg-a font-roboto">
     <div class="bg-a text-e  p-3 pb-0">
-        <span class="text-4xl pr-5 font-bold">HutTrack</span>
+        <span class="text-4xl pr-5 font-bold hover:underline cursor-pointer" onclick="openServer('HutTrack')">HutTrack</span>
         <span class="text-xl text-d">
-          
           Counting 
           <span class="text-e font-bold" id="online-players">0</span>
           players across 
           <span class="text-e font-bold" id="online-servers">0</span> 
           servers.
         </span>
+        <!-- <span class="inline text-d float-right rounded-lg pl-2 pr-2 border-2 border-e">
+          <span class="font-bold text-e mt-3 mb-3" id="ou"></span> users online
+          <button id="login" class="m-3 btn text-e font-medium text-xs leading-tight uppercase hover:text-d focus:outline-none focus:ring-0 transition duration-150 ease-in-out" onclick="login()" type="button" id="button-addon3">Sign in</button>
+          
+        </span> -->
+
         <!-- <span class="float-right"><a href="https://discord.gg/QjCRDU6hKW" target="_blank"><img src="https://discordapp.com/api/guilds/987424484120215664/widget.png?style=banner2" alt=""></a></span> -->
     </div>
     <div class="m-2">
@@ -80,53 +87,65 @@
           </div>
         </div>  
         <div class="bg-a basis-4/5 rounded-lg p-3 flex flex-row space-x-2">
-        <div id="searchdata" class="basis-2/3 rounded-lg border-a border-2">
-          <span id="m-sn" class="text-4xl text-e pr-4 font-bold">HutTrack</span> <span class="basis-1/3 text-2xl text-e "><span class="text-d" id="m-po">%PO%</span> Players online</span>
-          <div class="">
-            <span class="text-l text-d ">Created: <span class="text-d font-bold" id="m-cd">Sat Apr 11 2020</span> </span><p>
-          </div>
-          <div class="">
-            <div id="" type="search" class="flex flex-row space-x-3 form-control flex-auto min-w-0 block px-3 py-1.5 bg-c text-base rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
-              <div class="inline">
-                <img id="icon" class="icon" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAwFBMVEUAAAD+/v7A9f4ry8BJ1cyz1ttv49yc8u2ioqLW//7E//5vb29Ua2/u//+Li4tOXmAbgnsTWVR7naIviIIgXVkTYV42i4VHkY0xY2AlX1tkm5d9o6JyiYxWcG9EamiJo6IbjolecG+Yo6NocHATDxseGCs8MFYHBwsPDxoNCxMKCg8KChQEBAcQEBgPDRUKChMLCxAGBgkjHTAODhUKChALCxEICAxANFoHBw4DAwULCREHBwkHBwoHBwwKCg0HBw2tCV9hAAAAAXRSTlMAQObYZgAAAbFJREFUOI2VkQtXozAQhdPwEJlIbZKSUEIfmjWCr3Wtb3f9///KCQXF2nXPzumhIfebm8mFkP+rUfv7Th78/cPo6x4ltFv61Tby/h4Eu1wo7ZpDXNHR9iw06hZhGMd7e3Echt1GtOlLkihqZRqP9rFSRGjbB2wDtEiA/Wl6gJWm6BEEGQAZd4B3OfQHpL1DFKHclwfIIbp8zDABmOAm6xwSRDgX/qAQy3czOfVSD+BD5LlqEUpBSl0UEg2GSQmlZgoRDiC1ZlrDwGEDzMpylgsDsoCqmn8GuAfKZFGqfAmor6oK5ADg3oEni6OScwN6Xh2vKi23vhZXs8UR58oAGhyv2BdgmatygWegQ7VCvcBr9lFtghK5n1IJf0Q1L3xQfdQ4o/2BSbYXNVKzudZyOjlx/ZA4o7U8EUKoPDfACi0lnNYOBjk09uzcXgjR5oB1clnXteuz5IY0Vz8b21z/SpZLmMobxxBgjoz7sI3J1rd3zXWCs0zuHx7d+dMzyuPBLQ0e03Br1wbqB/fifmdDtWOy9R9rDVq79/m3CEJuG8Ne3Y7uj1k4ZOO/6h7h7Dt5V70BPD4k7Z5sL/cAAAAASUVORK5CYII=" alt="Server Icon" />
+          <div id="searchdata" class="basis-2/3 rounded-lg border-a border-2">
+            <span id="m-sn" class="text-4xl text-e pr-4 font-bold">HutTrack</span> <span class="basis-1/3 text-2xl text-e "><span class="text-d font-bold" id="m-po">%PO%</span> <span id="ot">Players</span> online</span>
+            <div class="">
+              <span class="text-l text-d ">Created: <span class="text-d font-bold" id="m-cd">Sat Apr 11 2020</span> </span><p>
+            </div>
+            <div class="">
+              <div id="" type="search" class="flex flex-row space-x-3 form-control flex-auto min-w-0 block px-3 py-1.5 bg-c text-base rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
+                <div class="inline">
+                  <img id="icon" class="icon" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAwFBMVEUAAAD+/v7A9f4ry8BJ1cyz1ttv49yc8u2ioqLW//7E//5vb29Ua2/u//+Li4tOXmAbgnsTWVR7naIviIIgXVkTYV42i4VHkY0xY2AlX1tkm5d9o6JyiYxWcG9EamiJo6IbjolecG+Yo6NocHATDxseGCs8MFYHBwsPDxoNCxMKCg8KChQEBAcQEBgPDRUKChMLCxAGBgkjHTAODhUKChALCxEICAxANFoHBw4DAwULCREHBwkHBwoHBwwKCg0HBw2tCV9hAAAAAXRSTlMAQObYZgAAAbFJREFUOI2VkQtXozAQhdPwEJlIbZKSUEIfmjWCr3Wtb3f9///KCQXF2nXPzumhIfebm8mFkP+rUfv7Th78/cPo6x4ltFv61Tby/h4Eu1wo7ZpDXNHR9iw06hZhGMd7e3Echt1GtOlLkihqZRqP9rFSRGjbB2wDtEiA/Wl6gJWm6BEEGQAZd4B3OfQHpL1DFKHclwfIIbp8zDABmOAm6xwSRDgX/qAQy3czOfVSD+BD5LlqEUpBSl0UEg2GSQmlZgoRDiC1ZlrDwGEDzMpylgsDsoCqmn8GuAfKZFGqfAmor6oK5ADg3oEni6OScwN6Xh2vKi23vhZXs8UR58oAGhyv2BdgmatygWegQ7VCvcBr9lFtghK5n1IJf0Q1L3xQfdQ4o/2BSbYXNVKzudZyOjlx/ZA4o7U8EUKoPDfACi0lnNYOBjk09uzcXgjR5oB1clnXteuz5IY0Vz8b21z/SpZLmMobxxBgjoz7sI3J1rd3zXWCs0zuHx7d+dMzyuPBLQ0e03Br1wbqB/fifmdDtWOy9R9rDVq79/m3CEJuG8Ne3Y7uj1k4ZOO/6h7h7Dt5V70BPD4k7Z5sL/cAAAAASUVORK5CYII=" alt="Server Icon" />
+                </div>
+                <div id="m-motd" class="inline">
+
+                </div>
               </div>
-              <div id="m-motd" class="inline">
+            </div>
+            <div class="flex flex-row space-x-3">
+
+              <div id="m-ip" type="search" class="place-items-center grid basis-1/3 inline text-e underline form-control block px-3 py-1.5 bg-c text-base rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
+              </div>
+              <div id="m-plan" type="search" class="place-items-center grid basis-1/3 inline text-d font-bold form-control block px-3 py-1.5 bg-c text-base rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
 
               </div>
-            </div>
-          </div>
-          <div class="flex flex-row space-x-3">
-
-            <div id="m-ip" type="search" class="place-items-center grid basis-1/3 inline text-e underline form-control block px-3 py-1.5 bg-c text-base rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
-            </div>
-            <div id="m-plan" type="search" class="place-items-center grid basis-1/3 inline text-d font-bold form-control block px-3 py-1.5 bg-c text-base rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
-
-            </div>
-            <div id="m-status" type="search" class="place-items-center grid basis-1/3 inline text-e form-control block px-3 py-1.5 bg-c text-base rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
-            </div>
-          </div>
-          <div class="flex flex-row space-x-3">
-            <div id="m-cpd" type="search" class="place-items-center grid basis-1/4 inline text-expensive font-bold form-control block px-3 py-1.5 bg-c text-base rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
-            </div>
-            <div id="m-cat" type="search" class="flex flex-row space-x-2 basis-1/4 inline font-bold form-control block px-3 py-1.5 bg-c rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
-              <div class="basis-1/3 text-e rounded-full p-1 place-items-center grid">
-                Website
-              </div>
-              <div class="basis-1/3 text-e rounded-full p-1 place-items-center grid">
-                Utility
-              </div>
-              <div class="basis-1/3 text-e rounded-full p-1 place-items-center grid">
-                Stats
+              <div id="m-status" type="search" class="place-items-center grid basis-1/3 inline text-e form-control block px-3 py-1.5 bg-c text-base rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
               </div>
             </div>
-            <div id="m-cpd" type="search" class="place-items-center grid basis-1/4 inline text-expensive form-control block px-3 py-1.5 bg-c text-base rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
-              <span class="text-d">Last up <span class="text-e font-bold" id="m-lu">Sat Apr 12 2020</span> </span>
+            <div class="flex flex-row space-x-3">
+              <div id="m-cpd" type="search" class="place-items-center grid basis-1/4 inline text-expensive font-bold form-control block px-3 py-1.5 bg-c text-base rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
+              </div>
+              <div id="m-cat" type="search" class="flex flex-row space-x-2 basis-1/4 inline font-bold form-control block px-3 py-1.5 bg-c rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
+                <div class="basis-1/3 text-e rounded-full p-1 place-items-center grid">
+                  Website
+                </div>
+                <div class="basis-1/3 text-e rounded-full p-1 place-items-center grid">
+                  Utility
+                </div>
+                <div class="basis-1/3 text-e rounded-full p-1 place-items-center grid">
+                  Stats
+                </div>
+              </div>
+              <div id="m-cpd" type="search" class="place-items-center grid basis-1/4 inline text-expensive form-control block px-3 py-1.5 bg-c text-base rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
+                <span class="text-d">Last up <span class="text-e font-bold" id="m-lu">Sat Apr 12 2020</span> </span>
+              </div>
+              <div id="m-cpd" type="search" class="place-items-center grid basis-1/4 inline text-enchant font-bold form-control block px-3 py-1.5 bg-c text-base rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
+                <span id="m-type">
+                  Website
+                </span>
+              </div>
             </div>
-            <div id="m-cpd" type="search" class="basis-1/4 inline text-expensive font-bold form-control block px-3 py-1.5 bg-c text-base rounded-lg transition ease-in-out m-0 focus:border-a focus:outline-none pr-3 mb-2" placeholder="Server MOTD" aria-label="Search" aria-describedby="button-addon3">
-            </div>
-            <!-- <canvas class="basis-2/3" id="currentServerGraph" width="1000" height="100"></canvas> -->
-          </div>
+            <div class="flex flex-row space-x-3">
+              <div class="basis-1/3 bg-c rounded-lg p-3">
+                <div class="inline place-items-center grid">
+                  <span class="text-e ">Connected Servers: <span class="font-bold text-d">0</span></span>
+                </div>
+                <div id="servers">
 
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
